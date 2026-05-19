@@ -2,12 +2,13 @@ $Folder = "C:\Users\Farouk\Downloads\auto-wallpapers\images"
 $TargetDownloads = 5
 
 $Tags = @(
-    "cyberpunk", "subnautica", "berserk", "witcher",
-    "ghost of tsushima", "mass effect", "dead space",
-    "dune", "space", "black hole", "nebula", "mountains",
-    "forest", "rain", "samurai", "knight", "castle", "moon",
-    "minimalist", "synthwave", "futuristic city",
-    "post apocalyptic", "gothic", "cosmic horror"
+    "cyberpunk art", "subnautica art", "berserk art", "witcher art",
+    "ghost of tsushima art", "mass effect art", "dead space art",
+    "expedition 33",
+    "space", "black hole", "nebula", "mountains",
+    "forest", "rain", "dark samurai art", "castle art", "moon art",
+    "minimalist art", "synthwave art", "futuristic city",
+    "post apocalyptic", "gothic art"
 )
 
 $Tag = Get-Random -InputObject $Tags
