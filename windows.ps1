@@ -1,10 +1,9 @@
+$ProgressPreference = 'SilentlyContinue'
 $Folder = "C:\Users\Farouk\Downloads\auto-wallpapers\images"
 $TargetDownloads = 5
+$RetentionDays   = 7
 
 $Tags = @(
-    "cyberpunk art", "subnautica art", "berserk art", "witcher art",
-    "ghost of tsushima art", "mass effect art", "dead space art",
-    "expedition 33",
     "space", "black hole", "nebula", "mountains",
     "forest", "rain", "dark samurai art", "castle art", "moon art",
     "minimalist art", "synthwave art", "futuristic city",
@@ -75,3 +74,20 @@ while ($successful -lt $TargetDownloads) {
 }
 
 Write-Host "`nDone. Downloaded $successful / $TargetDownloads wallpapers for tag: '$Tag'"
+# Cleanup: only run if we actually got fresh wallpapers,
+# so a dead network doesn't leave you with an empty folder.
+if ($successful -gt 0) {
+    $cutoff = (Get-Date).AddDays(-$RetentionDays)
+    $old = @(Get-ChildItem -Path $Folder -File |
+        Where-Object { $_.Extension -match '^\.(jpg|jpeg|png|webp)$' -and $_.CreationTime -lt $cutoff })
+
+    foreach ($file in $old) {
+        try {
+            Remove-Item -LiteralPath $file.FullName -Force -ErrorAction Stop
+            Write-Host "Deleted old: $($file.Name)"
+        } catch {
+            Write-Host "Failed to delete $($file.Name): $_"
+        }
+    }
+    Write-Host "Cleaned $($old.Count) file(s) older than $RetentionDays days."
+}
